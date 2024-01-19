@@ -1,4 +1,4 @@
-nstructions
+#Instructions
 
 This program takes two inputs. The first input is stored in a variable called a. The second input is stored in a variable called b.
 
