@@ -1,10 +1,10 @@
-This is my repo for working on the 100 days of code course.
+# This is my repo for working on the 100 days of code course.
 
-# 100 Days of Code: The Complete Python Pro Bootcamp
-## Master Python by building 100 projects in 100 days. Learn data science, automation, build websites, games and apps!
-
-# What you'll learn
-
+    100 Days of Code: The Complete Python Pro Bootcamp
+    Master Python by building 100 projects in 100 days. Learn data science, automation, build websites, games and apps!
+    
+    # What you'll learn
+    
     You will master the Python programming language by building 100 unique projects over 100 days.
     You will learn automation, game, app and web development, data science and machine learning all using Python.
     You will be able to program in Python professionally
