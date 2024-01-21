@@ -14,6 +14,7 @@ def user_choice(rock,paper,scissors):
 
 def computer_choice(rock,paper,scissors):
     computer_choice = r.randint(0,2)
+    print("Computer chose:")
     if computer_choice == 0:
         print(rock)
     elif computer_choice == 1:
@@ -25,12 +26,12 @@ def computer_choice(rock,paper,scissors):
 def main():
     
     rock = '''
-        _______
-    ---'   ____)
-        (_____)
-        (_____)
-        (____)
-    ---.__(___)
+       _______
+    ----'   ____)
+    -    (_____)
+    -    (_____)
+    -  -  (____)
+    ----.__(___)
     '''
     paper = '''
         _______
@@ -49,7 +50,6 @@ def main():
     ---.__(___)
     '''
     user_choice(rock,paper,scissors)
-    print(f"Computer chose:\n")
     computer_choice(rock,paper,scissors)
     
 
