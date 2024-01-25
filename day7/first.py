@@ -1,33 +1,80 @@
 # Step 1 
 import random
 
+def player_guess():
+    guessing = input("Guess a letter!\n")
+    guessing = guessing.lower()
+    return guessing
 
-
-word_list = ["aardvark", "baboon", "camel"]
-#TODO-1 - Randomly choose a word from the word_list and assign it to a variable called chosen_word.
-chosen_word = random.choice(word_list)
-
-def main():
-    #TODO-2 - Ask the user to guess a letter and assign their answer to a variable called guess. Make guess lowercase.
-    guess = input("Guess a letter!\n")
-    guess = guess.lower()
-
-
-    #TODO-3 - Check if the letter the user guessed (guess) is one of the letters in the chosen_word.
+def guess_checking(guess, word_choice):
     guess_check = False
-    letters_guessed = 0
     while True:
-        if guess in chosen_word:
+        if guess in word_choice:
             guess_check = True
             print("You got one...\n")
-            for letter in chosen_word:
-                if guess in letter:
-                    #Do I use this to reveal?
-                    letters_guessed += 1
-            main()
+            return guess_check
         else:
             print("Nope! Hahaha!\n")
-            main()
+            return guess_check
+
+def loadword():
+    word_list = ["aardvark", "baboon", "camel"]
+    chosen_word = random.choice(word_list)
+    return chosen_word
+
+def setup_spaces(word_choice):
+    spaces = []
+    for letters in word_choice:
+        spaces.append("__ ")
+    return spaces
+
+def setup_letterlist(word_choice):
+    letter_list = []
+    for letters in word_choice:
+        letter_list.append(letters)
+    return letter_list
+
+def print_hangman(spaces):
+    
+    gallows = [
+        "  _______",
+        "  |     ",
+        "  |     ",
+        "  |     ",
+        "  |     ",
+        "__|__"
+    ]
+    for line in gallows:
+        print(line)
+    spacesjoined = ""
+    for item in spaces:
+        spacesjoined += item
+    print(spacesjoined)
+
+    
+
+def main():
+    print("Welcome to Hangman")
+    word_choice = loadword()
+    spaces = setup_spaces(word_choice)
+    letter_list = setup_letterlist(word_choice)
+    winloss_counter = 0
+    while True:
+        print_hangman(spaces)
+        guess = player_guess()
+        if guess_checking(guess, word_choice) == True:
+            for letters in range(len(letter_list)):
+                spaces[letters] = letter_list[letters]
+        else:
+            print("You guessed wrong")
+            winloss_counter += 1
+            if winloss_counter == 5:
+                print("GAME OVER")
+                break
+            print_hangman(spaces)
+
+
+
 
 
 if __name__ == "__main__":
