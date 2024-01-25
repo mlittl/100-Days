@@ -1,35 +1,32 @@
 import random
 import sys
 
-def player_guess():
-    guessing = input("Guess a letter!\n")
-    guessing = guessing.lower()
-    return guessing
-
 def join(word_to_join):
     wordjoin = ""
     for item in word_to_join:
         wordjoin += item
     return wordjoin
 
-def guess_checking(guess, word_choice):
-    guess_check = False
-    while True:
-        if len(guess) > 1:
-            print("You must guess a single letter")
-            break
-        if guess == " ":
-            print("You must guess a single letter spaces")
-            break
-        elif guess in word_choice:
-            guess_check = True
-            return guess_check
-        else:
-            print("Nope! Hahaha!\n")
-            return guess_check
+def player_guess():
+    guessing = input("\nGuess a letter: ")
+    guessing = guessing.lower()
+    return guessing
 
+def guess_checking(guess, word_choice):
+    if len(guess) > 1 or guess == " ":
+        print("You must guess a single letter")
+        return False
+    elif guess in word_choice:
+        return True
+    else:
+        print("\n Nope! Hahaha!\n")
+        return False
+    
 def loadword():
-    word_list = ["aardvark", "baboon", "camel"]
+    with open('wordlist.txt', 'r') as file:
+        word_list = file.readlines()
+    #remove any newline characters
+    word_list = [word.strip() for word in word_list]
     chosen_word = random.choice(word_list)
     return chosen_word
 
@@ -129,16 +126,19 @@ def main():
     spaces = setup_spaces(word_choice)
     letter_list = setup_letterlist(word_choice)
     lives = 0
-    guesses_count = 0
-    guesses_dict = {}
+    guesses_list = []
     while True:
         gameoverchecklist = print_hangman(spaces, lives)
         guess = player_guess()
-        guesses_count += 1
+        if guess in guesses_list:
+            print(f"\nSo far you've guessed: {guesseslist}")
+            print("You've already guessed that letter. Try a new one.")
+            continue
+        guesses_list.append(guess)
+        
         if guess_checking(guess, word_choice) == True:
-            guesses_dict[guess] = guesses_count
             for letters in range(len(letter_list)): # Replaces the spaces with letters upon successful guess
-                if guess in letter_list[letters]:
+                if guess in letter_list[letters] and guess != "":
                     spaces[letters] = letter_list[letters]
                     if spaces == letter_list: # Win Condition
                         print("You win!")
@@ -149,6 +149,9 @@ def main():
                 gameovercheck = join(gameoverchecklist)
                 print(gameovercheck)
                 sys.exit()
+        guesseslist = join(guesses_list)
+        print(f"\nSo far you've guessed: {guesseslist}")
+
 
 if __name__ == "__main__":
     main()
