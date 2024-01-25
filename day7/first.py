@@ -1,5 +1,6 @@
 # Step 1 
 import random
+import sys
 
 def player_guess():
     guessing = input("Guess a letter!\n")
@@ -9,7 +10,13 @@ def player_guess():
 def guess_checking(guess, word_choice):
     guess_check = False
     while True:
-        if guess in word_choice:
+        if len(guess) > 1 or len(guess) < 0 or guess != str:
+            print("You must guess a single letter")
+            break
+        if guess == "":
+            print("You must guess a single letter")
+            break
+        elif guess in word_choice:
             guess_check = True
             print("You got one...\n")
             return guess_check
@@ -25,7 +32,7 @@ def loadword():
 def setup_spaces(word_choice):
     spaces = []
     for letters in word_choice:
-        spaces.append("__ ")
+        spaces.append("_")
     return spaces
 
 def setup_letterlist(word_choice):
@@ -33,6 +40,12 @@ def setup_letterlist(word_choice):
     for letters in word_choice:
         letter_list.append(letters)
     return letter_list
+
+def victory_check(guesses_dict, word_choice):
+    if guesses_dict >= 5:
+        print("Game Over! Man has Hang'd")
+        sys.exit()
+
 
 def print_hangman(spaces):
     
@@ -45,7 +58,7 @@ def print_hangman(spaces):
         "__|__"
     ]
     for line in gallows:
-        print(line)
+        print(line)    
     spacesjoined = ""
     for item in spaces:
         spacesjoined += item
@@ -59,14 +72,21 @@ def main():
     spaces = setup_spaces(word_choice)
     letter_list = setup_letterlist(word_choice)
     winloss_counter = 0
+    guesses_count = 0
+    guesses_dict = {}
     while True:
         print_hangman(spaces)
         guess = player_guess()
+        guesses_count += 1
+        guesses_dict[guess] = guesses_count
         if guess_checking(guess, word_choice) == True:
             for letters in range(len(letter_list)):
-                spaces[letters] = letter_list[letters]
+                if guess in letter_list[letters]:
+                    spaces[letters] = letter_list[letters]
+                    if spaces == letter_list:
+                        print("You win!")
+                        sys.exit()
         else:
-            print("You guessed wrong")
             winloss_counter += 1
             if winloss_counter == 5:
                 print("GAME OVER")
