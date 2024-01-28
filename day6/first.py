@@ -46,3 +46,6 @@ def main():
                 turn_left()
                 main()
 main()
+
+if __name__ == "__main__":
+    main() 
