@@ -1,45 +1,56 @@
-alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+from art import logo 
 
-direction = input("Type 'encode' to encrypt, type 'decode' to decrypt:\n")
-text = input("Type your message:\n").lower()
-shift = int(input("Type the shift number:\n"))
+def restart():
+     user_input = input("Would you like to restart the program? Type 'yes' if you want to go again. Otherwise, type 'no'.\n")
+     if user_input != "yes":
+        print("Bye!")
+        exit()
+     while user_input == "yes":
+        main()
 
-#TODO-1: Create a function called 'encrypt' that takes the 'text' and 'shift' as inputs.
-
-def encrypt(text, shift, alphabet):
-    #TODO-2: Inside the 'encrypt' function, shift each letter of the 'text' forwards in the alphabet by the shift amount and print the encrypted text.  
-    #e.g. 
-    #plain_text = "hello"
-    #shift = 5
-    #cipher_text = "mjqqt"
-    #print output: "The encoded text is mjqqt"
-    cipher_text = text
-    encrypted_message = ""
-    
-    for i in range(len(alphabet)):
-        #print(f"i = {i}")
-        shifting = shift + i
+def validate_shift(shift):
+        if shift > len(alphabet):
+            shift = shift % len(alphabet)
+        return shift
         
-        if shifting >= len(alphabet):
-            shifting = (shifting - 26)
-            #print(f"shifting = {shifting}")
-        #print(f"alphabet letter = {alphabet[i]}")
-        for x in range(len(cipher_text)):
-            if cipher_text[x] in alphabet[i]:
-                print(f"Alphabet[i] = {alphabet[i]}")
-                print(f"Alphabet[shifting] = {alphabet[shifting]}")
-                encrypted_message += str(alphabet[shifting]) 
-    print(f"Encrypted message = {encrypted_message}")
+def caesar(text, shift, direction):
+        cipher_text = text
+        message = ""
+        if direction == "decode":
+            shift *= -1
+        if direction == "encode" or direction == "decode":
+                for i in range(len(cipher_text)):
+                    if cipher_text[i] not in alphabet:
+                        message += str(cipher_text[i])
+                    else: 
+                        for x in range(len(alphabet)):
+                            shifting = shift + x
+                            if shifting >= len(alphabet):
+                                shifting = (shifting - 26)
+                            if cipher_text[i] == alphabet[x]:
+                                message += str(alphabet[shifting])
+                print(f"Here's the {direction}d result: {message}")
+        else:
+            print("Error, exiting")
+            restart()
+            
+def main():
+    print(logo)
+    global alphabet
+    alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+    try: 
+        global direction 
+        direction = input("Type 'encode' to encrypt, type 'decode' to decrypt:\n")
+        global text 
+        text = input("Type your message:\n").lower()
+        global shift 
+        shift = int(input("Type the shift number:\n"))
+        shift = validate_shift(shift)
+    except:
+        print("Error, exiting")
+        restart()
+    caesar(text, shift, direction)
+    restart() 
 
-
-
-
-
-    ##HINT: How do you get the index of an item in a list:
-    #https://stackoverflow.com/questions/176918/finding-the-index-of-an-item-in-a-list
-
-    ##🐛Bug alert: What happens if you try to encode the word 'civilization'?🐛
-
-#TODO-3: Call the encrypt function and pass in the user inputs. You should be able to test the code and encrypt a message. 
-
-encrypt(text, shift, alphabet)
+if __name__ == '__main__':
+    main()
